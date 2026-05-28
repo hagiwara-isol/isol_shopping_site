@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<meta charset="UTF-8">
+	<title>商品一覧画面</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<style>
+		#lists {
+			width: 60%;
+		}
+
+		.up {
+			transform: translate(20px, -50px);
+
+		}
+
+
+		#title {
+			background-color: rgb(128, 255, 255);
+			height: 45px;
+			padding: 10px;
+		}
+
+		#shop {
+			background-color: rgb(221, 254, 255);
+			height: 45px;
+			padding: 10px;
+		}
+
+		body {
+			font-family: sans-serif;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div>[[${userData.userName}]]さん、ようこそ。</div>
+	<div>
+		<p style="text-align: right"><a th:href="@{/shop/menu}">メニューへ</a></p>
+	</div><br>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/history}">購入履歴へ</a></p>
+	</div><br><br>
+
+	<div class="up">商品数：[[${itemList.size()}]]</div>
+	<form style="text-align: center;" th:action="@{/shop/itemList}" th:object="${ItemInputRequest}" method="post">
+		<div th:if="${message}" class="up">
+			<div>
+				<font color=red>[[${message}]]</font>
+			</div>
+		</div>
+		<input type="submit" value="チェックボックスに入れたものをまとめて購入" class="up">
+		<br>
+		<table border="1" id="lists" class="up">
+			<tr id="title">
+				<th>chk</th>
+				<th>ジャンル</th>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>残り在庫数</th>
+			</tr>
+			<tr th:each="item : ${itemList}" id="shop">
+				<td><input type="checkbox" th:name="itemIds" th:value="${item.itemId}"></td>
+				<td th:text="${item.itemCategory}"></td>
+				<td><a th:href="@{/shop/itemInput(itemid=${item.itemId})}" th:text="${item.itemName}"></a></td>
+				<td th:text="${#numbers.formatInteger(item.itemValue, 3, 'COMMA')}+'円'"></td>
+				<td th:text="${item.itemStock}+'個'" th:style="'color:' + ${item.itemStock < 5  ? 'red' : 'green'}"></td>
+			</tr>
+		</table>
+		<br>
+	</form>
+	<div class="up">希望の商品を選んでください。</div>
+
+</body>
+
+</html>

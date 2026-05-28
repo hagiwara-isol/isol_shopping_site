@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>商品マイナス個数時</title>
+	<style>
+		.lists {
+			width: 50%;
+			transform: translate(20px, -30px);
+		}
+
+		th {
+			background-color: rgb(255, 206, 183);
+			height: 25px;
+			padding: 10px;
+		}
+
+		td {
+			background-color: rgb(252, 243, 224);
+			height: 25px;
+			padding: 10px;
+		}
+
+		body {
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<div>[[${userData.userName}]]さん、ようこそ。<br></div>
+	<div>商品は1個からのご購入をお願いしております。</div>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/itemList}">商品一覧へ</a></p>
+	</div><br>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/menu}">メニューへ</a></p>
+	</div><br>
+	<table id="list" border="1">
+		<tr>
+			<th>ジャンル</th>
+			<th>商品名</th>
+			<th>価格</th>
+			<th>残り個数</th>
+		</tr>
+		<tr>
+			<td>[[${item.itemCategory}]]</td>
+			<td>[[${item.itemName}]]</td>
+			<td>[[${#numbers.formatInteger(item.itemValue, 3, 'COMMA')}]]円</td>
+			<td th:style="'color:' + ${item.itemStock < 5  ? 'red' : 'green'}">[[${item.itemStock}]]個</td>
+		</tr>
+	</table><br>
+	<form th:action="@{/shop/minusBuy}" th:object="${itemInputRequest}" th:method="POST">
+		<div>
+			購入個数：<input type="number" name="itemCount" size="3" required />
+			<button type="submit" th:name="itemId" th:value="${item.itemId}">確認</button>
+			<br>
+			<div th:if="${message}">
+				<div>
+					<font color=red>[[${message}]]</font>
+				</div>
+			</div>
+		</div><br>
+	</form>
+
+</body>
+
+</html>

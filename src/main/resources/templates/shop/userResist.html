@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta charset="utf-8" />
+	<title>新規ユーザー登録</title>
+
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<div style="text-align:center"><br>新規登録画面<br></div>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/login}">ログイン</a></p>
+	</div><br>
+	<hr align=center color=black>
+	<div style="text-align:center"><br>ログインIDとパスワードを入力してください。<br><br></div>
+	<form style="text-align:center" th:action="@{/shop/userResist}" th:object="${loginRequest}" th:method="POST">
+		<div>
+			ログインID：<input type="text" th:field="*{loginId}" size="20" />
+			<div th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}" style="color: red;"></div><br>
+			ユーザー名：<input type="text" th:field="*{userName}" size="20" />
+			<div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" style="color: red;"></div><br>
+			パスワード：<input type="text" th:field="*{password}" size="20" />
+			<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></div><br>
+			<br>
+			<input type="submit" value="新規登録">
+		</div> <br>
+		<div th:if="${message}">
+			<div>
+				<font color=red>[[${message}]]</font>
+			</div>
+		</div>
+	</form>
+</body>
+
+</html>

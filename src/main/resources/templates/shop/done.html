@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+	<meta charset="utf-8" />
+	<title>購入完了画面</title>
+	<style>
+		.lists {
+			width: 50%;
+			transform: translate(20px, -50px);
+		}
+		#sum{
+			transform: translate(20px, -50px);
+		}
+
+		th {
+			background-color: rgb(128, 255, 255);
+			height: 25px;
+			padding: 10px;
+		}
+
+		td {
+			background-color: rgb(221, 254, 255);
+			height: 25px;
+			padding: 10px;
+		}
+
+		body {
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<div>[[${userData.userName}]]さん、ようこそ。</div>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/menu}">メニューへ</a></p>
+	</div><br>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/itemList}">商品一覧へ</a></p>
+	</div><br>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/history}">購入履歴へ</a></p>
+	</div><br>
+
+	<div class="lists">購入が完了しました。</div><br><br>
+	<table border="1" class="lists">
+		<tr>
+			<th>購入完了日時</th>
+			<th>購入No</th>
+			<th>購入金額</th>
+
+		</tr>
+		<tr th:each="item : ${itemList}">
+			<td th:text="${item.buyTime}"></td>
+			<td th:text="${item.itemNo}"></td>
+			<td th:text="${#numbers.formatInteger(item.itemSum, 3, 'COMMA')}+'円'"></td>
+		</tr>
+	</table><br>
+	<table border="1" class="lists">
+		<tr>
+			<th>合計金額</th>
+			<td>[[${#numbers.formatInteger(itemSum, 3, 'COMMA')}]]円</td>
+		</tr>
+	</table><br>
+	<div id="sum">【購入内容】</div><br>
+	<table border="1" class="lists">
+		<tr>
+			<th>商品名</th>
+			<th>価格</th>
+			<th>購入個数</th>
+		</tr>
+		<tr th:each="item : ${itemList}">
+			<td th:text="${item.itemName}"></td>
+			<td th:text="${#numbers.formatInteger(item.itemValue, 3, 'COMMA')}+'円'"></td>
+			<td th:text="${item.itemCount}+'個'"></td>
+		</tr>
+	</table>
+
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>商品カート画面</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+	<meta charset="utf-8" />
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+
+		#lists {
+			width: 65%;
+		}
+		.up {
+			transform: translate(20px, -40px);
+		}
+
+		th {
+			background-color: rgb(128, 255, 255);
+			height: 45px;
+			padding: 10px;
+		}
+
+		td {
+			background-color: rgb(221, 254, 255);
+			height: 45px;
+			padding: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div>[[${userData.userName}]]さん、ようこそ。</div>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/menu}">メニューへ</a></p>
+	</div>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/itemList}">商品一覧へ</a></p>
+	</div><br>
+	<div class="up">個数を確認して「確認」ボタンを押下してください</div><br>
+	<form th:action="@{/shop/itemInputCart}" th:object="${itemInputRequest}" th:method="POST">
+		<div th:each="item, itemStat : ${itemList}">
+			<input type="hidden" th:name="|itemList[${itemStat.index}].itemId|" th:value="${item.itemId}">
+			<input type="hidden" th:name="|itemList[${itemStat.index}].itemValue|" th:value="${item.itemValue}">
+			<input type="hidden" th:name="|itemList[${itemStat.index}].itemName|" th:value="${item.itemName}">
+			<input type="hidden" th:name="|itemList[${itemStat.index}].itemCategory|" th:value="${item.itemCategory}">
+			<input type="hidden" th:name="|itemList[${itemStat.index}].itemExplain|" th:value="${item.itemExplain}">
+			<input type="hidden" th:name="|itemList[${itemStat.index}].itemNo|" th:value="${item.itemNo}">
+			<input type="hidden" th:name="|itemList[${itemStat.index}].itemStock|" th:value="${item.itemStock}">
+		</div>
+		<table border="1" id="lists" class="up">
+			<tr>
+				<th>ジャンル</th>
+				<th>商品名</th>
+				<th>値段</th>
+				<th>説明</th>
+				<th>残り在庫数</th>
+				<th>購入個数入力</th>
+			</tr>
+			<tr th:each="item : ${itemList}">
+				<td th:text="${item.itemCategory}"></td>
+				<td th:text="${item.itemName}"></td>
+				<td th:text="${#numbers.formatInteger(item.itemValue, 3, 'COMMA')}+'円'"></td>
+				<td th:text="${item.itemExplain}"></td>
+				<td th:text="${item.itemStock}+'個'" th:style="'color:' + ${item.itemStock < 5  ? 'red' : 'green'}"></td>
+				<td>
+					<input type="number" th:field="*{itemCounts}" size="1" id="formRequest" required />
+				</td>
+		</table><br>
+		<div class="up">
+			<button type="submit">確認</button><br>
+			<div th:if="${message}">
+				<div>
+					<font color=red>[[${message}]]</font>
+				</div>
+			</div>
+		</div><br>
+	</form>
+
+</body>
+
+</html>

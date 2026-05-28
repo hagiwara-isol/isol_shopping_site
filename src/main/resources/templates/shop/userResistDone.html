@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta charset="utf-8" />
+	<title>新規ユーザー登録完了画面</title>
+	<style>
+		#lists {
+			width: 50%;
+			transform: translate(20px);
+		}
+
+		th {
+			background-color: rgb(255, 187, 250);
+			height: 25px;
+			padding: 10px;
+		}
+
+		td {
+			background-color: rgb(255, 210, 255);
+			height: 25px;
+			padding: 10px;
+		}
+
+		.fancy {
+			font-weight: bold;
+			text-shadow: 4px rgb(rgb(255, 255, 128), rgb(0, 128, 192), blue);
+		}
+
+		body {
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<p class="fancy">＜登録完了＞</p>
+	</div><br>
+	<div>以下の内容で登録完了しました</div><br><br>
+	<table border="1" id="lists">
+		<tr>
+			<th>ログインID</th>
+			<th>ユーザー名</th>
+			<th>パスワード</th>
+		</tr>
+		<tr>
+			<td>[[${userData.loginId}]]</td>
+			<td>[[${userData.userName}]]</td>
+			<td>[[${userData.password}]]</td>
+		</tr>
+	</table><br>
+	<div>
+		<p style="text-align: right"><a th:href="@{/shop/menu}">メニューへ</a></p>
+	</div>
+
+
+</body>
+
+</html>

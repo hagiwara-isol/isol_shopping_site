@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>ログイン画面</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta charset="utf-8" />
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<div style="text-align:center"><br>ログイン画面<br><br><br></div>
+	<hr align=center color=black>
+	<div style="text-align:center"><br>ログインIDとパスワードを入力してください。<br><br></div>
+	<form style="text-align:center" th:action="@{/shop/login}" th:object="${loginRequest}" th:method="POST">
+		<div>
+			ログインID：<input type="text" th:field="*{loginId}" size="20" /><br>
+			<div th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}" style="color: red;"></div><br>
+			パスワード：<input type="text" th:field="*{password}" size="20" /><br>
+			<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></div><br>
+			<br>
+			<input type="submit" value="ログイン">
+			<br>
+			<div th:if="${message}">
+				<div>
+					<font color=red>[[${message}]]</font>
+				</div>
+			</div>
+		</div>
+	</form><br>
+	<div style="text-align:center"><a th:href="@{/shop/userResist}">新規登録</a></div>
+</body>
+</html>

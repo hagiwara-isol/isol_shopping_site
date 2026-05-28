@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>商品画面</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+	<meta charset="utf-8" />
+	<style>
+		#lists {
+			width: 50%;
+		}
+		.up {
+			transform: translate(20px, -50px);
+		}
+
+		th {
+			background-color: rgb(128, 255, 255);
+			height: 25px;
+			padding: 10px;
+		}
+
+		td {
+			background-color: rgb(221, 254, 255);
+			height: 25px;
+			padding: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div>[[${userData.userName}]]さん、ようこそ。</div>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/menu}">メニューへ</a></p>
+	</div><br>
+	<div>
+		<p style="text-align: right;"><a th:href="@{/shop/itemList}">商品一覧へ</a></p>
+	</div><br><br>
+	<div class="up">個数を確認して「確認」ボタンを押下してください</div><br><br>
+	<table border="1" id="lists" class="up">
+		<tr>
+			<th>ジャンル</th>
+			<td>[[${item.itemCategory}]]</td>
+		</tr>
+		<tr>
+			<th>商品名</th>
+			<td>[[${item.itemName}]]</td>
+		</tr>
+		<tr>
+			<th>値段</th>
+			<td>[[${#numbers.formatInteger(item.itemValue, 3, 'COMMA')}]]円</td>
+		</tr>
+		<tr>
+			<th>説明</th>
+			<td>[[${item.itemExplain}]]</td>
+		</tr>
+		<tr>
+			<th>残り在庫数</th>
+			<td th:style="'color:' + ${item.itemStock < 5  ? 'red' : 'green'}">[[${item.itemStock}]]個</td>
+		</tr>
+	</table><br>
+	<form th:action="@{/shop/itemInput}" th:object="${itemInputRequest}" th:method="POST">
+		<div class="up">
+			購入個数：<input type="number" th:field="*{itemCount}" size="3" required />
+			<button type="submit" th:name="itemId" th:value="${item.itemId}">確認</button>
+			<div th:if="${#fields.hasErrors('itemCount')}" th:errors="*{itemCount}" style="color: red;"></div><br>
+		</div>
+		<br>
+	</form>
+
+
+</body>
+
+</html>
